@@ -1,0 +1,19 @@
+# Memory Bank Git Configuration
+# Include all memory files for team collaboration
+
+# Include core memory files
+!*.md
+
+# Include search index for shared context
+!semantic-index.json
+
+# Exclude temporary files
+*.tmp
+*.log
+
+# Include VCS memory for project history
+!.vcs-memory/
+
+# Exclude any sensitive local cache
+cache/
+vector-db/local/

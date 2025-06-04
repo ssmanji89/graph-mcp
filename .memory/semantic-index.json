@@ -1,0 +1,72 @@
+{
+  "indexVersion": "1.0.0",
+  "lastUpdated": "2025-01-09T00:00:00Z",
+  "searchableContent": [
+    {
+      "type": "memory-file",
+      "path": ".memory/01-brief.md",
+      "title": "Project Charter",
+      "keywords": ["charter", "goals", "scope", "constraints", "Microsoft Graph", "MCP server", "productivity", "IT administrators"]
+    },
+    {
+      "type": "memory-file", 
+      "path": ".memory/10-product.md",
+      "title": "Product Definition",
+      "keywords": ["users", "features", "use cases", "IT administrators", "power users", "developers", "authentication", "Graph API"]
+    },
+    {
+      "type": "memory-file",
+      "path": ".memory/20-system.md", 
+      "title": "System Architecture",
+      "keywords": ["architecture", "components", "MCP protocol", "Graph client", "authentication", "security", "scalability"]
+    },
+    {
+      "type": "memory-file",
+      "path": ".memory/30-tech.md",
+      "title": "Technology Landscape", 
+      "keywords": ["Node.js", "TypeScript", "MCP SDK", "MSAL", "Graph SDK", "testing", "deployment", "Docker"]
+    },
+    {
+      "type": "memory-file",
+      "path": ".memory/40-active.md",
+      "title": "Current Focus",
+      "keywords": ["sprint", "priorities", "blockers", "next steps", "planning", "implementation"]
+    },
+    {
+      "type": "memory-file",
+      "path": ".memory/50-progress.md", 
+      "title": "Project Progress",
+      "keywords": ["completed", "milestones", "achievements", "issues", "lessons learned", "metrics", "risks"]
+    },
+    {
+      "type": "memory-file",
+      "path": ".memory/60-decisions.md",
+      "title": "Decision Log",
+      "keywords": ["decisions", "architecture", "technology stack", "authentication", "error handling", "rationale"]
+    },
+    {
+      "type": "memory-file",
+      "path": ".memory/70-knowledge.md",
+      "title": "Domain Knowledge", 
+      "keywords": ["Graph API", "MCP protocol", "permissions", "authentication flows", "troubleshooting", "optimization"]
+    },
+    {
+      "type": "project-rule",
+      "path": ".cursor/rules/coding-standards.md",
+      "title": "Coding Standards",
+      "keywords": ["TypeScript", "naming conventions", "error handling", "documentation", "code organization"]
+    },
+    {
+      "type": "project-rule", 
+      "path": ".cursor/rules/mcp-patterns.md",
+      "title": "MCP Patterns",
+      "keywords": ["MCP tools", "resources", "error codes", "validation", "tool naming"]
+    },
+    {
+      "type": "project-rule",
+      "path": ".cursor/rules/graph-api-standards.md", 
+      "title": "Graph API Standards",
+      "keywords": ["MSAL", "authentication", "token management", "batch operations", "retry logic", "error handling"]
+    }
+  ]
+}

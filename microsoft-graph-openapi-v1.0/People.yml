@@ -1,0 +1,595 @@
+openapi: 3.0.4
+info:
+  title: People
+  version: v1.0
+servers:
+  - url: https://graph.microsoft.com/v1.0/
+    description: Core
+paths:
+  '/users/{user-id}/people':
+    get:
+      tags:
+        - users.person
+      summary: Get people from users
+      description: People that are relevant to the user. Read-only. Nullable.
+      operationId: user_ListPerson
+      parameters:
+        - name: user-id
+          in: path
+          description: The unique identifier of user
+          required: true
+          style: simple
+          schema:
+            type: string
+          x-ms-docs-key-type: user
+        - $ref: '#/components/parameters/top'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values
+          style: form
+          explode: false
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          style: form
+          explode: false
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          style: form
+          explode: false
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      responses:
+        2XX:
+          $ref: '#/components/responses/microsoft.graph.personCollectionResponse'
+        default:
+          $ref: '#/components/responses/error'
+      x-ms-pageable:
+        nextLinkName: '@odata.nextLink'
+        operationName: listMore
+      x-ms-docs-operation-type: operation
+  '/users/{user-id}/people/{person-id}':
+    get:
+      tags:
+        - users.person
+      summary: Get people from users
+      description: People that are relevant to the user. Read-only. Nullable.
+      operationId: user_GetPerson
+      parameters:
+        - name: user-id
+          in: path
+          description: The unique identifier of user
+          required: true
+          style: simple
+          schema:
+            type: string
+          x-ms-docs-key-type: user
+        - name: person-id
+          in: path
+          description: The unique identifier of person
+          required: true
+          style: simple
+          schema:
+            type: string
+          x-ms-docs-key-type: person
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          style: form
+          explode: false
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          style: form
+          explode: false
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      responses:
+        2XX:
+          description: Retrieved navigation property
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/microsoft.graph.person'
+        default:
+          $ref: '#/components/responses/error'
+      x-ms-docs-operation-type: operation
+  '/users/{user-id}/people/$count':
+    get:
+      tags:
+        - users.person
+      summary: Get the number of the resource
+      operationId: user.person_GetCount
+      parameters:
+        - name: user-id
+          in: path
+          description: The unique identifier of user
+          required: true
+          style: simple
+          schema:
+            type: string
+          x-ms-docs-key-type: user
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/filter'
+      responses:
+        2XX:
+          $ref: '#/components/responses/ODataCountResponse'
+        default:
+          $ref: '#/components/responses/error'
+components:
+  schemas:
+    microsoft.graph.person:
+      allOf:
+        - $ref: '#/components/schemas/microsoft.graph.entity'
+        - title: person
+          type: object
+          properties:
+            birthday:
+              type: string
+              description: The person's birthday.
+              nullable: true
+            companyName:
+              type: string
+              description: The name of the person's company.
+              nullable: true
+            department:
+              type: string
+              description: The person's department.
+              nullable: true
+            displayName:
+              type: string
+              description: The person's display name.
+              nullable: true
+            givenName:
+              type: string
+              description: The person's given name.
+              nullable: true
+            imAddress:
+              type: string
+              description: The instant message voice over IP (VOIP) session initiation protocol (SIP) address for the user. Read-only.
+              nullable: true
+            isFavorite:
+              type: boolean
+              description: True if the user has flagged this person as a favorite.
+              nullable: true
+            jobTitle:
+              type: string
+              description: The person's job title.
+              nullable: true
+            officeLocation:
+              type: string
+              description: The location of the person's office.
+              nullable: true
+            personNotes:
+              type: string
+              description: Free-form notes that the user has taken about this person.
+              nullable: true
+            personType:
+              $ref: '#/components/schemas/microsoft.graph.personType'
+            phones:
+              type: array
+              items:
+                $ref: '#/components/schemas/microsoft.graph.phone'
+              description: The person's phone numbers.
+            postalAddresses:
+              type: array
+              items:
+                $ref: '#/components/schemas/microsoft.graph.location'
+              description: The person's addresses.
+            profession:
+              type: string
+              description: The person's profession.
+              nullable: true
+            scoredEmailAddresses:
+              type: array
+              items:
+                $ref: '#/components/schemas/microsoft.graph.scoredEmailAddress'
+              description: The person's email addresses.
+            surname:
+              type: string
+              description: The person's surname.
+              nullable: true
+            userPrincipalName:
+              type: string
+              description: 'The user principal name (UPN) of the person. The UPN is an Internet-style login name for the person based on the Internet standard RFC 822. By convention, this should map to the person''s email name. The general format is alias@domain.'
+              nullable: true
+            websites:
+              type: array
+              items:
+                $ref: '#/components/schemas/microsoft.graph.website'
+              description: The person's websites.
+            yomiCompany:
+              type: string
+              description: The phonetic Japanese name of the person's company.
+              nullable: true
+          additionalProperties:
+            type: object
+    microsoft.graph.entity:
+      title: entity
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for an entity. Read-only.
+      additionalProperties:
+        type: object
+    microsoft.graph.personType:
+      title: personType
+      type: object
+      properties:
+        class:
+          type: string
+          description: 'The type of data source, such as Person.'
+          nullable: true
+        subclass:
+          type: string
+          description: 'The secondary type of data source, such as OrganizationUser.'
+          nullable: true
+      additionalProperties:
+        type: object
+    microsoft.graph.phone:
+      title: phone
+      type: object
+      properties:
+        language:
+          type: string
+          nullable: true
+        number:
+          type: string
+          description: The phone number.
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/microsoft.graph.phoneType'
+      additionalProperties:
+        type: object
+    microsoft.graph.location:
+      title: location
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/microsoft.graph.physicalAddress'
+        coordinates:
+          $ref: '#/components/schemas/microsoft.graph.outlookGeoCoordinates'
+        displayName:
+          type: string
+          description: The name associated with the location.
+          nullable: true
+        locationEmailAddress:
+          type: string
+          description: Optional email address of the location.
+          nullable: true
+        locationType:
+          $ref: '#/components/schemas/microsoft.graph.locationType'
+        locationUri:
+          type: string
+          description: Optional URI representing the location.
+          nullable: true
+        uniqueId:
+          type: string
+          description: For internal use only.
+          nullable: true
+        uniqueIdType:
+          $ref: '#/components/schemas/microsoft.graph.locationUniqueIdType'
+      additionalProperties:
+        type: object
+    microsoft.graph.scoredEmailAddress:
+      title: scoredEmailAddress
+      type: object
+      properties:
+        address:
+          type: string
+          description: The email address.
+          nullable: true
+        itemId:
+          type: string
+          nullable: true
+        relevanceScore:
+          type: number
+          description: 'The relevance score of the email address. A relevance score is used as a sort key, in relation to the other returned results. A higher relevance score value corresponds to a more relevant result. Relevance is determined by the user’s communication and collaboration patterns and business relationships.'
+          format: double
+          nullable: true
+        selectionLikelihood:
+          $ref: '#/components/schemas/microsoft.graph.selectionLikelihoodInfo'
+      additionalProperties:
+        type: object
+    microsoft.graph.website:
+      title: website
+      type: object
+      properties:
+        address:
+          type: string
+          description: The URL of the website.
+          nullable: true
+        displayName:
+          type: string
+          description: The display name of the web site.
+          nullable: true
+        type:
+          $ref: '#/components/schemas/microsoft.graph.websiteType'
+      additionalProperties:
+        type: object
+    microsoft.graph.personCollectionResponse:
+      title: Collection of person
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/microsoft.graph.person'
+        '@odata.nextLink':
+          type: string
+          nullable: true
+      additionalProperties:
+        type: object
+    microsoft.graph.ODataErrors.ODataError:
+      required:
+        - error
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/microsoft.graph.ODataErrors.MainError'
+      additionalProperties:
+        type: object
+    ODataCountResponse:
+      type: integer
+      format: int32
+    microsoft.graph.phoneType:
+      title: phoneType
+      enum:
+        - home
+        - business
+        - mobile
+        - other
+        - assistant
+        - homeFax
+        - businessFax
+        - otherFax
+        - pager
+        - radio
+      type: string
+    microsoft.graph.physicalAddress:
+      title: physicalAddress
+      type: object
+      properties:
+        city:
+          type: string
+          description: The city.
+          nullable: true
+        countryOrRegion:
+          type: string
+          description: 'The country or region. It''s a free-format string value, for example, ''United States''.'
+          nullable: true
+        postalCode:
+          type: string
+          description: The postal code.
+          nullable: true
+        state:
+          type: string
+          description: The state.
+          nullable: true
+        street:
+          type: string
+          description: The street.
+          nullable: true
+      additionalProperties:
+        type: object
+    microsoft.graph.outlookGeoCoordinates:
+      title: outlookGeoCoordinates
+      type: object
+      properties:
+        accuracy:
+          type: number
+          description: 'The accuracy of the latitude and longitude. As an example, the accuracy can be measured in meters, such as the latitude and longitude are accurate to within 50 meters.'
+          format: double
+          nullable: true
+        altitude:
+          type: number
+          description: The altitude of the location.
+          format: double
+          nullable: true
+        altitudeAccuracy:
+          type: number
+          description: The accuracy of the altitude.
+          format: double
+          nullable: true
+        latitude:
+          type: number
+          description: The latitude of the location.
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          description: The longitude of the location.
+          format: double
+          nullable: true
+      additionalProperties:
+        type: object
+    microsoft.graph.locationType:
+      title: locationType
+      enum:
+        - default
+        - conferenceRoom
+        - homeAddress
+        - businessAddress
+        - geoCoordinates
+        - streetAddress
+        - hotel
+        - restaurant
+        - localBusiness
+        - postalAddress
+      type: string
+    microsoft.graph.locationUniqueIdType:
+      title: locationUniqueIdType
+      enum:
+        - unknown
+        - locationStore
+        - directory
+        - private
+        - bing
+      type: string
+    ReferenceNumeric:
+      enum:
+        - '-INF'
+        - INF
+        - NaN
+      type: string
+      nullable: true
+    microsoft.graph.selectionLikelihoodInfo:
+      title: selectionLikelihoodInfo
+      enum:
+        - notSpecified
+        - high
+      type: string
+    microsoft.graph.websiteType:
+      title: websiteType
+      enum:
+        - other
+        - home
+        - work
+        - blog
+        - profile
+      type: string
+    microsoft.graph.ODataErrors.MainError:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+          x-ms-primary-error-message: true
+        target:
+          type: string
+          nullable: true
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/microsoft.graph.ODataErrors.ErrorDetails'
+        innerError:
+          $ref: '#/components/schemas/microsoft.graph.ODataErrors.InnerError'
+      additionalProperties:
+        type: object
+    microsoft.graph.ODataErrors.ErrorDetails:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        target:
+          type: string
+          nullable: true
+      additionalProperties:
+        type: object
+    microsoft.graph.ODataErrors.InnerError:
+      type: object
+      additionalProperties:
+        type: object
+      description: The structure of this object is service-specific
+  responses:
+    microsoft.graph.personCollectionResponse:
+      description: Retrieved collection
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/microsoft.graph.personCollectionResponse'
+    error:
+      description: error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/microsoft.graph.ODataErrors.ODataError'
+    ODataCountResponse:
+      description: The count of the resource
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/ODataCountResponse'
+  parameters:
+    top:
+      name: $top
+      in: query
+      description: Show only the first n items
+      style: form
+      explode: false
+      schema:
+        minimum: 0
+        type: integer
+      example: 50
+    skip:
+      name: $skip
+      in: query
+      description: Skip the first n items
+      style: form
+      explode: false
+      schema:
+        minimum: 0
+        type: integer
+    search:
+      name: $search
+      in: query
+      description: Search items by search phrases
+      style: form
+      explode: false
+      schema:
+        type: string
+    filter:
+      name: $filter
+      in: query
+      description: Filter items by property values
+      style: form
+      explode: false
+      schema:
+        type: string
+    count:
+      name: $count
+      in: query
+      description: Include count of items
+      style: form
+      explode: false
+      schema:
+        type: boolean
+  securitySchemes:
+    azureaadv2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+          tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+          scopes: { }
+security:
+  - azureaadv2: [ ]
