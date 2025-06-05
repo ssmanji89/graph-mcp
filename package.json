@@ -19,7 +19,17 @@
     "format": "prettier --write src/**/*.ts",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "community:init": "node -r ts-node/register scripts/community-init.ts",
+    "community:validate": "node -r ts-node/register scripts/validate-extensions.ts",
+    "community:docs": "node -r ts-node/register scripts/generate-docs.ts",
+    "community:test": "node -r ts-node/register scripts/test-extensions.ts",
+    "tools:generate": "node -r ts-node/register scripts/generate-tool.ts",
+    "tools:validate": "node -r ts-node/register scripts/validate-tool.ts",
+    "registry:update": "node -r ts-node/register scripts/update-registry.ts",
+    "registry:sync": "node -r ts-node/register scripts/sync-registry.ts",
+    "learning:init": "node -r ts-node/register scripts/init-learning.ts",
+    "learning:validate": "node -r ts-node/register scripts/validate-learning.ts"
   },
   "keywords": [
     "microsoft-graph",
@@ -27,7 +37,11 @@
     "model-context-protocol",
     "ai",
     "microsoft-365",
-    "typescript"
+    "typescript",
+    "community",
+    "extensions",
+    "developer-tools",
+    "automation"
   ],
   "author": "Microsoft Graph MCP Server Contributors",
   "license": "MIT",
@@ -39,6 +53,19 @@
     "url": "https://github.com/microsoft/graph-mcp-server/issues"
   },
   "homepage": "https://github.com/microsoft/graph-mcp-server#readme",
+  "bin": {
+    "graph-mcp": "./dist/cli/index.js",
+    "create-graph-extension": "./dist/cli/create-extension.js",
+    "graph-tool-builder": "./dist/cli/tool-builder.js"
+  },
+  "files": [
+    "dist/",
+    "docs/",
+    "templates/",
+    "README.md",
+    "CONTRIBUTING.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@azure/msal-node": "^2.6.0",
@@ -48,7 +75,17 @@
     "zod": "^3.22.0",
     "winston": "^3.11.0",
     "node-cache": "^5.1.2",
-    "dotenv": "^16.3.0"
+    "dotenv": "^16.3.0",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.0",
+    "semver": "^7.5.0",
+    "tar": "^6.2.0",
+    "glob": "^10.3.0",
+    "yaml": "^2.3.0",
+    "markdown-it": "^14.0.0",
+    "highlight.js": "^11.9.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
@@ -70,7 +107,12 @@
     "nodemon": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "tsconfig-paths": "^4.2.0",
-    "@types/json-schema": "^7.0.15"
+    "@types/json-schema": "^7.0.15",
+    "@types/inquirer": "^9.0.7",
+    "@types/tar": "^6.1.11",
+    "@types/markdown-it": "^14.0.1",
+    "concurrently": "^8.2.0",
+    "rimraf": "^5.0.0"
   },
   "jest": {
     "preset": "ts-jest",
@@ -78,14 +120,47 @@
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.d.ts",
-      "!src/index.ts"
+      "!src/index.ts",
+      "!src/cli/**/*.ts",
+      "!src/community/**/*.ts"
     ],
-    "testMatch": ["**/__tests__/**/*.test.ts"]
+    "testMatch": ["**/__tests__/**/*.test.ts"],
+    "coverageReporters": ["text", "lcov", "html"],
+    "coverageDirectory": "coverage"
   },
   "lint-staged": {
     "src/**/*.ts": [
       "eslint --fix",
       "prettier --write"
+    ],
+    "docs/**/*.md": [
+      "prettier --write"
     ]
+  },
+  "community": {
+    "registry": {
+      "url": "https://registry.graph-mcp.dev",
+      "apiVersion": "v1"
+    },
+    "templates": {
+      "path": "./templates",
+      "version": "1.0.0"
+    },
+    "learning": {
+      "path": "./docs/learning",
+      "apiUrl": "https://learn.graph-mcp.dev"
+    },
+    "extensions": {
+      "path": "./extensions",
+      "configPath": "./config/extensions.json"
+    }
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/graph-mcp-server"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 } 

@@ -9,15 +9,25 @@ import * as userModule from './tools/user-tools.js';
 
 export function getAllTools(graphClient: GraphClient): any[] {
   return [
-    // User tools
+    // Enhanced User tools
     userModule.createListUsersTool(graphClient),
     userModule.createGetUserTool(graphClient),
+    userModule.createBulkCreateUsersTool(graphClient),
+    userModule.createBulkUpdateUsersTool(graphClient),
+    userModule.createManageUserPhotoTool(graphClient),
+    userModule.createManageUserManagerTool(graphClient),
+    userModule.createManageUserLicensesTool(graphClient),
+    userModule.createListAvailableLicensesTool(graphClient),
+    userModule.createManageUserSecurityTool(graphClient),
     
-    // Group tools
+    // Enhanced Group tools
     groupsModule.createListGroupsTool(),
     groupsModule.createGetGroupTool(),
     groupsModule.createCreateGroupTool(),
     groupsModule.createManageGroupMembersTool(),
+    groupsModule.createGroupAnalyticsTool(),
+    groupsModule.createGroupLifecycleTool(),
+    groupsModule.createDynamicGroupsTool(),
     
     // Teams tools
     teamsModule.createListTeamsTool(),
